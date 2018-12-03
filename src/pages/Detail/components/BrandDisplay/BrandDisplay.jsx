@@ -82,7 +82,7 @@ export default class BrandDisplay extends Component {
         athis.state.Purchase.deployed().then(function(instance){
           let purchaseInstance = instance;
           let str = '0xf245074E0C708c9D06070FB8248f5e38bfCf9375'
-          let price = JSON.parse(athis.state.dataSource.price)
+          let price = JSON.parse(athis.state.dataSource.price)*athis.state.value
           athis.setState({price : price})
           return purchaseInstance.transfer(str,price*1e2, {from : accounts[0]});
         }).then(function(result) {
@@ -156,6 +156,7 @@ export default class BrandDisplay extends Component {
      this.setState({
       value : e.target.value
     })
+  }
   }
 
   render() {
