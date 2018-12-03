@@ -30,16 +30,23 @@ export default class BrandDisplay extends Component {
       contracts : {},
       url : '',
       req : {},
-      value : 1
+      value : 1,
+      picture : null,
+      display : "none",
+      left : 0,
+      bottom  : 0
     };
+    this.lastX = null;
+    this.lastY = null;
     this.handleMin = this.handleMin.bind(this)
     this.handleMax = this.handleMax.bind(this)
     this.valuechange = this.valuechange.bind(this)
+    this.move = this.move.bind(this)
   }
 
   componentWillMount = async() => {
     let result = await detail(this.state.id)
-    this.setState({dataSource : result})
+    this.setState({dataSource : result, picture : result.picture[0]})
     if (typeof web3 !== 'undefined') {
       web3 = new Web3(web3.currentProvider);
     } else {
@@ -144,21 +151,45 @@ export default class BrandDisplay extends Component {
       this.setState({
         value : 1
       })
-      }else if(e.target.value >= tis.state.dataSource.surplusstock){
+      }else if(e.target.value >= this.state.dataSource.surplusstock){
         this.setState({
           value : this.state.dataSource.surplusstock
         })
     }else {
-      //let reg = /^[1-9]+?[0-9]*$/;
-      //  let value = e.target.value.match(reg)
-      //  console.log(value)
-    //}
-     this.setState({
-      value : e.target.value
+      let reg = /^[1-9]+?[0-9]*$/;
+      if(reg.test(e.target.value)){
+        this.setState({
+          value : e.target.value
+        })
+      }else{
+        this.setState({
+          value : 1
+        })
+      }
+     
+  }
+  }
+  click = (src) => {
+    this.setState ({
+      picture : src
     })
   }
-  }
 
+  move = (e) =>{
+    if(this.lastX && this.lastY) {
+      let dx = e.clientX - this.lastX;
+      let dy = e.clientY - this.lastY;
+      this.setState({ left: this.state.left + dx, bottom: this.state.bottom  + dy , display : 'block'})
+    }
+    this.lastX = e.clientX;
+    this.lastY = e.clientY;
+
+  }
+  leave = () => {
+      this.setState ({
+        display : "none"
+    })
+  }
   render() {
     const { isMobile } = this.state;
     const logoWidth = isMobile ? 150 : 195;
@@ -173,24 +204,25 @@ export default class BrandDisplay extends Component {
           <a href="/" style={{position: 'absolute', top: '18%', right: '0' }}>返回首页</a>
           <Row>
             <Col xxs="24" s="24" l="12">
-              <div style={{border: '1px solid'}}>
+              <div style={{border: '1px solid', position : 'relative'}} onMouseMove = {(e) => {this.move(e)}} onMouseLeave = {() => {this.leave()}}>
                 <img alt="140*140" 
-                  className="img-rounded img-center" style={{width: '100%'}} 
-                  src={this.state.dataSource.picture == undefined ? ("") : (this.state.dataSource.picture[0])}
+                  className="img-rounded img-center" style={{width: '100%', height  : '300px'}} 
+                  src={this.state.picture == null ? ("") : (this.state.picture)}
                  />
+                <div style = {{height : '100px', width : '100px', background :"red", position : "absolute", transform: `translateX(${this.state.left}px)translateY(${this.state.bottom}px)`, display : this.state.display, opacity : '0.3' }}></div>
               </div>
               <Row>
-                <Col xxs="8" s="8" l="8" style = {{float : 'left', marginTop : '10px'}}>
-                  <img src={src}
-                  style={{width: '100%'}}/>
+                <Col xxs="8" s="8" l="8" onClick = {() => {this.click (this.state.dataSource  .picture[0])}} style = {{float : 'left', marginTop : '10px'}}>
+                  <img src={this.state.dataSource.picture == undefined ? ("") : (this.state.dataSource.picture[0])}
+                  style={{width: '100%', height : '100px'}}/>
                 </Col>
-                <Col xxs="8" s="8" l="8" style = {{float : 'left' , marginTop : '10px'}}>
-                  <img src={src}
-                  style={{width: '100%'}}/>
+                <Col xxs="8" s="8" l="8" onClick = {() => {this.click (this.state.dataSource  .picture[1])}} style = {{float : 'left' , marginTop : '10px'}}>
+                  <img src={this.state.dataSource.picture == undefined ? ("") : (this.state.dataSource.picture[1])}
+                  style={{width: '100%', height : '100px'}}/>
                 </Col>
-                <Col xxs="8" s="8" l="8" style = {{float : 'left', marginTop : '10px'}}>
-                  <img src={src}
-                  style={{width: '100%'}}/>
+                <Col xxs="8" s="8" l="8" onClick = {() => {this.click (this.state.dataSource  .picture[2])}} style = {{float : 'left', marginTop : '10px'}}>
+                  <img src={this.state.dataSource.picture == undefined ? ("") : (this.state.dataSource.picture[2])}
+                  style={{width: '100%', height : '100px'}}/>
                 </Col>
               </Row>
             </Col>
