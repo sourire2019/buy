@@ -49,7 +49,7 @@ contract Coin {
      	ProductNum=num;
      	ProductPrice= price;
      	UserId = msg.sender;
-     	//transfer(_to, _value);
+     	transfer(_to, _value);
     }
     
     function getMessage() public view returns (address){

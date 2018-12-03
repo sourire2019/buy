@@ -4,31 +4,14 @@
 
 const asideMenuConfig = [
   {
-    name: '业务概览',
-    path: '/',
-    icon: 'home2',
-  },
-  {
-    name: '数据中心',
-    path: '/datacenter',
-    icon: 'cascades',
-  },
-  {
-    name: '反馈',
-    path: 'https://github.com/alibaba/ice/issues/new',
-    icon: 'question2',
-    external: true,
-    newWindow: true,
-  },
-  {
     name: 'Buy',
-    path: '/buy',
+    path: '/',
     icon: 'home',
   },
   {
     name: 'Detail',
     path: '/detail',
-    icon: 'home',
+    icon: 'home2',
   },
 ];
 

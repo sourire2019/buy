@@ -14,7 +14,7 @@ export default class Detail extends Component {
     return (
       <div className="detail-page">
         <BrandDisplay />
-        <BasicDetailInfo />
+        {/*<BasicDetailInfo /> */}
       </div>
     );
   }

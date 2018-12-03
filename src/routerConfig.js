@@ -4,24 +4,12 @@
 
 import BasicLayout from './layouts/BasicLayout';
 import NotFound from './pages/NotFound';
-import Business from './pages/Business';
 import Buy from './pages/Buy';
 import Detail from './pages/Detail';
-import DataCenter from './pages/DataCenter';
 
 const routerConfig = [
   {
     path: '/',
-    layout: BasicLayout,
-    component: Business,
-  },
-  {
-    path: '/datacenter',
-    layout: BasicLayout,
-    component: DataCenter,
-  },
-  {
-    path: '/buy',
     layout: BasicLayout,
     component: Buy,
   },

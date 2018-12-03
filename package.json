@@ -35,6 +35,8 @@
     "oswald": "^1.0.0",
     "prop-types": "^15.5.8",
     "react": "^16.4.1",
+    "react-bootstrap": "^0.32.4",
+    "react-bootstrap-dialog": "^0.10.0",
     "react-dom": "^16.4.1",
     "react-router-dom": "^4.2.2",
     "truffle-contract": "^4.0.0-beta.1",
