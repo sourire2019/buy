@@ -75,15 +75,22 @@ export default class BrandDisplay extends Component {
       }else{
         athis.state.Purchase.deployed().then(function(instance){
           let purchaseInstance = instance;
-          console.log(purchaseInstance)
             let str = '0x3F01D33faa61E890A2975574DBcf6b764868C5EE'
-            //return purchaseInstance.transfer(accounts[0],1*1e18);
-          return purchaseInstance.Purchase(str,1*1e2,1,1,"'"+1+"'");
+          return purchaseInstance.Purchase(str,1*1e2,1,1,"'"+1+"'", {from : accounts[0]});
         }).then(function(result) {
-          console.log(result)
-        })
+          let value = {};
+          value.txHash = result.tx;
+          value.blockNumber = result.receipt.blockNumber;
+          athis.state.Purchase.deployed().then(function(ins){
+            return ins.getMessage.call();
+          }).then(function(res){
+            value.userId = res;
+            console.log(value)
+            alert("购买成功")
+          })
+        }) 
       }
-    }) 
+    })
   }
   render() {
     const { isMobile } = this.state;
